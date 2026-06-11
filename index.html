@@ -10,26 +10,7 @@
   <meta name="apple-mobile-web-app-title" content="Mundial 2026" />
   <title>Mundial 2026</title>
 
-  <!-- PWA Manifest inline -->
-  <script>
-    const manifestData = {
-      name: "Mundial FIFA 2026",
-      short_name: "Mundial 2026",
-      description: "Sigue el Mundial FIFA 2026 en tiempo real",
-      start_url: "./mundial2026.html",
-      display: "standalone",
-      background_color: "#1a472a",
-      theme_color: "#1a472a",
-      orientation: "portrait",
-      icons: [
-        { src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='24' fill='%231a472a'/><text x='96' y='130' font-size='100' text-anchor='middle'>⚽</text></svg>", sizes: "192x192", type: "image/svg+xml" },
-        { src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='64' fill='%231a472a'/><text x='256' y='345' font-size='280' text-anchor='middle'>⚽</text></svg>", sizes: "512x512", type: "image/svg+xml" }
-      ]
-    };
-    const blob = new Blob([JSON.stringify(manifestData)], { type: "application/json" });
-    const manifestURL = URL.createObjectURL(blob);
-    document.write('<link rel="manifest" href="' + manifestURL + '">');
-  </script>
+  <link rel="manifest" href="manifest.json" />
 
   <style>
     :root {
@@ -601,20 +582,9 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // SERVICE WORKER para PWA
+  // SERVICE WORKER
   if ('serviceWorker' in navigator) {
-    const swCode = `
-      const CACHE = 'mundial2026-v1';
-      self.addEventListener('install', e => {
-        self.skipWaiting();
-      });
-      self.addEventListener('fetch', e => {
-        e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
-      });
-    `;
-    const blob = new Blob([swCode], { type: 'application/javascript' });
-    const swUrl = URL.createObjectURL(blob);
-    navigator.serviceWorker.register(swUrl).catch(() => {});
+    navigator.serviceWorker.register('/Mundial-2026/sw.js').catch(() => {});
   }
 
   // PROMPT INSTALACIÓN
